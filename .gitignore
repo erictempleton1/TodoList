@@ -1,6 +1,13 @@
 # settings & congfig files
 config.py
 
+# database files
+db_repository/
+*.db
+
+temp folder
+tmp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -13,9 +13,7 @@ class Signup(Form):
     def validate(self):
         if not Form.validate(self):
             return False
-
-        user = User.query.filter_by(email = self.email.data.lower()).first()
-        if user:
+        if User.query.filter_by(email = self.email.data.lower()).count() > 0:
             self.email.errors.append('Email already in use.')
             return False
         else:

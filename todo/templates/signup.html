@@ -15,26 +15,26 @@
 	{% endfor %}
 
 
+		<form class="form-horizontal" action="{{ url_for('signup') }}" method="post" name="login">
+		    {{ form.hidden_tag() }}
 
-	<form action="{{ url_for('signup') }}" method="post" name="login">
-	    {{ form.hidden_tag() }}
+		    <p>
+		      Name<br>
+		      {{ form.name(size=30) }}
+		    </p>
 
-	    <p>
-	      Name<br>
-	      {{ form.name(size=30) }}
-	    </p>
+		    <p>
+		      Email<br>
+		      {{ form.email(size=30) }}
+		    </p>
 
-	    <p>
-	      Email<br>
-	      {{ form.email(size=30) }}
-	    </p>
+		    <p>
+		      Password<br>
+		      {{ form.password(size=30) }}
+		    </p>
 
-	    <p>
-	      Password<br>
-	      {{ form.password(size=30) }}
-	    </p>
+		    <p><input type="submit" value="Submit"></p>
 
-	    <p><input type="submit" value="Submit"></p>
+		</form>
 
-	</form>
 {% endblock %}

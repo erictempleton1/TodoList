@@ -4,6 +4,10 @@ config.py
 # database files
 db_repository/
 *.db
+db_create.py
+db_downgrade.py
+db_migrate.py
+db_upgrade.py
 
 temp folder
 tmp/

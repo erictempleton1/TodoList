@@ -3,6 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 from forms import Signup, UserLogin
 from models import User
 from todo import app, db, login_manager
+from werkzeug.security import check_password_hash
 
 @app.before_request
 def before_request():
@@ -27,11 +28,26 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = UserLogin()
+    if g.user is not None and g.user.is_authenticated():
+        return redirect(url_for('index'))
+
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
+        email_submit = User.query.filter_by(email=form.email.data).first()
+        pw_submit = User.query.filter_by(password=form.password.data).first()
+
+    if email_submit is None:
+        flash('Email already in use.')
+        return redirect(url_for('login')
+
+    if not pw_submit.check_password(pw_submit):
+        flash('Invalid password')
+        return redirect(url_for('login')
+    login_user(email_submit, pw_submit)
+    return redirect(url_for('index')
         
 
+"""
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if g.user is not None and g.user.is_authenticated():
@@ -42,15 +58,15 @@ def login():
         session['remember_me'] = form.remember_me.data
         user_check = User.query.filter_by(email=form.email.data, password=form.password.data).first()
         
-        if user_check != None:
+        if user_check is not None:
             g.user = user_check
             login_user(user_check)
             return redirect('/')
     return render_template('login.html', title='Login', form=form
-            
+"""           
 
         
- 
+
 
 @app.route('/logout')
 def logout():

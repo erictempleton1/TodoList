@@ -28,23 +28,24 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = UserLogin()
     if g.user is not None and g.user.is_authenticated():
         return redirect(url_for('index'))
 
+    email_submit = User.query.filter_by(email=form.email.data).first()
+    pw_submit = User.query.filter_by(pw_hash=form.password.data).first()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
-        email_submit = User.query.filter_by(email=form.email.data).first()
-        pw_submit = User.query.filter_by(password=form.password.data).first()
 
     if email_submit is None:
         flash('Email already in use.')
-        return redirect(url_for('login')
+        return render_template('login.html', title='Login', form=form)
 
-    if not pw_submit.check_password(pw_submit):
+    if not pw_submit.check_password_hash(pw_submit):
         flash('Invalid password')
-        return redirect(url_for('login')
-    login_user(email_submit, pw_submit)
-    return redirect(url_for('index')
+        return redirect(url_for('login'))
+    login_user(pw_submit)
+    return redirect(url_for('index'))
         
 
 """

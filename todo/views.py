@@ -26,6 +26,7 @@ def signup():
         db.session.commit()
         return redirect('/')
 
+"""
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = UserLogin()
@@ -46,25 +47,31 @@ def login():
         return redirect(url_for('login'))
     login_user(pw_submit)
     return redirect(url_for('index'))
-        
-
 """
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if g.user is not None and g.user.is_authenticated():
-        return redirect(url_for('index'))
-
     form = UserLogin()
-    if form.validate_on_submit():
+    if request.method == 'GET':
+        return render_template('login.html', title='Login', form=form)
+
+    elif form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
-        user_check = User.query.filter_by(email=form.email.data, password=form.password.data).first()
+        user_email = User.query.filter_by(email=form.email.data).first()
+        user_pw = user_email.check_password(form.password.data)
+        reg_user = User.query.filter_by(email=form.email.data, pw_hash=user_pw).first()
         
-        if user_check is not None:
-            g.user = user_check
-            login_user(user_check)
-            return redirect('/')
-    return render_template('login.html', title='Login', form=form
-"""           
+        if user_email is None:
+            flash('Email address not found')
+            return redirect(url_for('login'))
+
+        if user_pw is False:
+            flash('Invalid password')
+            return redirect(url_for('login'))
+        
+        if reg_user is not None:
+            login_user(reg_user)
+    return redirect(request.args.get('next') or url_for('index'))        
 
         
 

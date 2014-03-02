@@ -10,6 +10,14 @@
 	    <div class="alert alert-danger">{{ message }}</div>
 	{% endfor %}
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+			<div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+
 	<form class="form-horizontal" action="{{ url_for('login') }}" method="post" name="login">
 	    {{ form.hidden_tag() }}
 

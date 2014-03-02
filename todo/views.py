@@ -5,9 +5,6 @@ from models import User
 from todo import app, db, login_manager
 from werkzeug.security import check_password_hash
 
-@app.before_request
-def before_request():
-    g.user = current_user
 
 @app.route('/')
 def index():
@@ -55,35 +52,39 @@ def login():
     if request.method == 'GET':
         return render_template('login.html', title='Login', form=form)
 
-    elif form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
-        user_email = User.query.filter_by(email=form.email.data).first()
-        user_pw = user_email.check_password(form.password.data)
-        reg_user = User.query.filter_by(email=form.email.data, pw_hash=user_pw).first()
-        
-        if user_email is None:
-            flash('Email address not found')
-            return redirect(url_for('login'))
 
-        if user_pw is False:
-            flash('Invalid password')
-            return redirect(url_for('login'))
+        try:
+            user_email = User.query.filter_by(email=form.email.data).first()
+            user_pw = user_email.check_password(form.password.data)
+            reg_user = User.query.filter_by(email=form.email.data, pw_hash=user_pw).first()
+
+            if reg_user is None:
+                flash('Username or Password is invalid')
+                return redirect(url_for('login'))
+            
+            if reg_user is not None:
+                login_user(reg_user)
+                return redirect(url_for('index'))
+
+        except AttributeError:
+            flash('Username or password is invalid')     
         
-        if reg_user is not None:
-            login_user(reg_user)
-    return redirect(request.args.get('next') or url_for('index'))        
+        
+
+    return render_template('login.html', title='Login', form=form)        
 
         
-
+@app.before_request
+def before_request():
+    g.user = current_user
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.before_request
-def before_request():
-    g.user = current_user
 
 @login_manager.user_loader
 def load_user(id):

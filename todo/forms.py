@@ -22,4 +22,4 @@ class Signup(Form):
 class UserLogin(Form):
     email = TextField('email', [validators.Required('Please enter your email address'), validators.Email('Please enter a valid email address')])
     password = PasswordField('password', [validators.Required('Please enter your password')])
-    remember_me = BooleanField('remember_me', default=False)   
+    remember_me = BooleanField('remember_me', default=False)

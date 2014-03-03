@@ -44,12 +44,11 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
 
-            {% if g.user.is_authenticated() %}
-            <li><a href="/logout">Logout</a></li>
-            {% endif %}
-
-            {% if not g.user.is_authenticated() %}
+            {% if not user_email or user_email == None %}
             <li><a href="/signup">Signup</a></li>
+            {% else %}
+
+            <li><a href="/logout">Logout</a></li>
             {% endif %}
 
           </ul>

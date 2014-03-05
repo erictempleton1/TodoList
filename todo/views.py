@@ -28,20 +28,37 @@ def signup():
 def login():
     form = UserLogin()
 
-    if form.validate_on_submit():
-        session['remember_me'] = True
-        user_email = User.query.filter_by(email=form.email.data).first()
-        user_pw = user_email.check_password(form.password.data)
-        reg_user = User.query.filter_by(email=form.email.data, pw_hash=user_pw).first()
-        login_user(reg_user)
-        return redirect(request.args.get('next') or url_for('index'))
+    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+        return render_template('login.html', form=form, title='Login')
+
+    if request.method == 'POST' and form.validate_on_submit():
+    
+        user_pw = form.password.data
+        user_email = form.email.data
+        check_email = User.query.filter_by(email=user_email).first()
+        if check_email is None:
+            try:
+                # check_pw throws error when email is invalid
+                check_pw = check_email.check_password(user_pw)
+            except AttributeError:
+                flash('Invalid email')
+                return render_template('login.html', form=form, title='Login')
+
+        if check_email is not None:
+            check_pw = check_email.check_password(user_pw)
+            if check_pw is False:
+                flash('Invalid password')
+                return render_template('login.html', form=form, title='Login')
+
+        if check_email is not None:
+            check_pw = check_email.check_password(user_pw)
+            if check_pw is True:
+                flash('Logged in!')
+                return render_template('login.html', form=form, title='Login')
+
     return render_template('login.html', form=form, title='Login')
 
         
-            
-        
-    return render_template('login.html', title='Login', form=form)
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -51,7 +68,3 @@ def logout():
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-@app.before_request
-def before_request():
-    g.user = current_user

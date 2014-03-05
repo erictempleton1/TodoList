@@ -3,11 +3,11 @@
 {% block content %}
 
 	{% for message in form.email.errors %}
-	    <div class="alert alert-danger">{{ message }}</div>
+	    <div class="alert alert-warning">{{ message }}</div>
 	{% endfor %}
 
 	{% for message in form.password.errors %}
-	    <div class="alert alert-danger">{{ message }}</div>
+	    <div class="alert alert-warning">{{ message }}</div>
 	{% endfor %}
 
     {% with messages = get_flashed_messages() %}

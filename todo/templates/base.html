@@ -44,11 +44,10 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
 
-            {% if not user_email or user_email == None %}
-            <li><a href="/signup">Signup</a></li>
+            {% if remember %}
+              <li><a href="/logout">Logout</a></li>
             {% else %}
-
-            <li><a href="/logout">Logout</a></li>
+              <li><a href="/login">Login</a></li>
             {% endif %}
 
           </ul>

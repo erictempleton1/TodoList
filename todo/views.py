@@ -54,15 +54,18 @@ def login():
             check_pw = check_email.check_password(user_pw)
             if check_pw is True:
                 flash('Logged in!')
-                return render_template('login.html', form=form, title='Login')
+                remember=True
+                login_user(check_email)
+                return redirect(url_for('index'))
 
     return render_template('login.html', form=form, title='Login')
 
         
-@app.route('/logout')
+@app.route("/logout")
+@login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return render_template('base.html', title='Home', remember=False)
 
 
 @login_manager.user_loader

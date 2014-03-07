@@ -53,19 +53,18 @@ def login():
         if check_email is not None:
             check_pw = check_email.check_password(user_pw)
             if check_pw is True:
+                session['logged_in'] = True
                 flash('Logged in!')
-                remember=True
-                login_user(check_email)
-                return redirect(url_for('index'))
+                # login_user(check_email)
+                return redirect('/')
 
     return render_template('login.html', form=form, title='Login')
 
         
 @app.route("/logout")
-@login_required
 def logout():
-    logout_user()
-    return render_template('base.html', title='Home', remember=False)
+    session.pop('logged_in', None)
+    return redirect('/')
 
 
 @login_manager.user_loader

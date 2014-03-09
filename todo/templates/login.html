@@ -2,41 +2,49 @@
 
 {% block content %}
 
-	{% for message in form.email.errors %}
-	    <div class="alert alert-warning">{{ message }}</div>
-	{% endfor %}
+    {% if not session.logged_in %}    
+    
+		{% for message in form.email.errors %}
+		    <div class="alert alert-warning">{{ message }}</div>
+		{% endfor %}
 
-	{% for message in form.password.errors %}
-	    <div class="alert alert-warning">{{ message }}</div>
-	{% endfor %}
+		{% for message in form.password.errors %}
+		    <div class="alert alert-warning">{{ message }}</div>
+		{% endfor %}
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-			<div class="alert alert-danger">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-    {% endwith %}
+		{% with messages = get_flashed_messages() %}
+		    {% if messages %}
+		    {% for message in messages %}
+				<div class="alert alert-danger">{{ message }}</div>
+		    {% endfor %}
+		    {% endif %}
+		{% endwith %}
 
-	<form class="form-horizontal" action="{{ url_for('login') }}" method="post" name="login">
-	    {{ form.hidden_tag() }}
+		<form class="form-horizontal" action="{{ url_for('login') }}" method="post" name="login">
+		    {{ form.hidden_tag() }}
 
-	    <p>
-	      Email<br>
-	      {{ form.email(size=30) }}
-	    </p>
+		    <p>
+		      Email<br>
+		      {{ form.email(size=30) }}
+		    </p>
 
-	    <p>
-	      Password<br>
-	      {{ form.password(size=30) }}
-	    </p>
-        <p>
-          Remember Me
-          {{ form.remember_me }}
+		    <p>
+		      Password<br>
+		      {{ form.password(size=30) }}
+		    </p>
+		    <p>
+		      Remember Me
+		      {{ form.remember_me }}
 
-		<p>
-          <input type="submit" value="Submit">
-		</p>
-	</form>
+			<p>
+		      <input type="submit" value="Submit">
+			</p>
+		</form>
+
+    {% else %}
+
+        <P>Hello, you're already logged in. Please click <a href="/logout">here</a> to logout.</p>
+
+    {% endif %}
 
 {% endblock %}

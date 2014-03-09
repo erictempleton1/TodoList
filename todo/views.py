@@ -64,9 +64,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop('logged_in', None)
+
+    # gets rid of flashed message from prev session
+    session.pop('_flashes', None)
     return redirect('/')
-
-
-@login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))

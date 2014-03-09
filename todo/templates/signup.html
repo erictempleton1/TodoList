@@ -2,39 +2,47 @@
 
 {% block content %}
 
-	{% for message in form.name.errors %}
-	    <div class="alert alert-danger">{{ message }}</div>
-	{% endfor %}
+    {% if not session.logged_in %}
 
-	{% for message in form.email.errors %}
-	    <div class="alert alert-danger">{{ message }}</div>
-	{% endfor %}
+		{% for message in form.name.errors %}
+		    <div class="alert alert-danger">{{ message }}</div>
+		{% endfor %}
 
-	{% for message in form.password.errors %}
-	    <div class="alert alert-danger">{{ message }}</div>
-	{% endfor %}
+		{% for message in form.email.errors %}
+		    <div class="alert alert-danger">{{ message }}</div>
+		{% endfor %}
+
+		{% for message in form.password.errors %}
+		    <div class="alert alert-danger">{{ message }}</div>
+		{% endfor %}
 
 
-		<form class="form-horizontal" action="{{ url_for('signup') }}" method="post" name="login">
-		    {{ form.hidden_tag() }}
+			<form class="form-horizontal" action="{{ url_for('signup') }}" method="post" name="login">
+			    {{ form.hidden_tag() }}
 
-		    <p>
-		      Name<br>
-		      {{ form.name(size=30) }}
-		    </p>
+			    <p>
+			      Name<br>
+			      {{ form.name(size=30) }}
+			    </p>
 
-		    <p>
-		      Email<br>
-		      {{ form.email(size=30) }}
-		    </p>
+			    <p>
+			      Email<br>
+			      {{ form.email(size=30) }}
+			    </p>
 
-		    <p>
-		      Password<br>
-		      {{ form.password(size=30) }}
-		    </p>
+			    <p>
+			      Password<br>
+			      {{ form.password(size=30) }}
+			    </p>
 
-		    <p><input type="submit" value="Submit"></p>
+			    <p><input type="submit" value="Submit"></p>
 
-		</form>
+			</form>
+
+    {% else %}
+    
+      <P>Hello, you're already logged in. Please click <a href="/logout">here</a> to logout.</p>
+
+    {% endif %}
 
 {% endblock %}

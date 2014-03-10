@@ -97,7 +97,5 @@ def user_lists():
 def logout():
     session.pop('logged_in', None)
     session.pop('user_email', None)
-
-    # gets rid of flashed message from prev session
-    session.pop('_flashes', None)
+    session.pop('_flashes', None) # gets rid of flashed message from prev session
     return redirect('/')

@@ -9,7 +9,15 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>To-do List | {{ title }}</title>
+    {% if session.logged_in %}
+
+      <title>To-do List | {{ user }}</title>
+
+    {% else %}
+
+      <title>To-do List | Guest </title>
+
+    {% endif %}
 
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,8 +53,12 @@
             <li class="active"><a href="/">Home</a></li>
 
             {% if session.logged_in %}
+              <li><a href="#">Lists</a></li>
+              <li><a href="#">Profile</a></li>
+              <li><a href="#">About</a></li>
               <li><a href="/logout">Logout</a></li>
             {% else %}
+              <li><a href="#">About</a></li>
               <li><a href="/login">Login</a></li>
               <li><a href="/signup">Sign-up</a>
             {% endif %}
@@ -60,7 +72,24 @@
     <div class="row">
       <div class="md-col-12">
         <div class="starter-template">
-          <h1>To-do List - {{ title }}</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if session.logged_in %}
+
+      <h1>{{ user }} To-do List</h1>
+
+    {% else %}
+
+      <h1>To-do List</h1>
+
+    {% endif %}
           <p class="lead">
           {% block content %}{% endblock %}
           </p>

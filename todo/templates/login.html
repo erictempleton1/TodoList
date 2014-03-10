@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {% if not session.logged_in %}    
-    
 		{% for message in form.email.errors %}
 		    <div class="alert alert-warning">{{ message }}</div>
 		{% endfor %}
@@ -36,15 +34,11 @@
 		      Remember Me
 		      {{ form.remember_me }}
 
+			<p>Don't have an account yet? Click <a href="/signup">here</a> to sign up. </p>
+
 			<p>
 		      <input type="submit" value="Submit">
 			</p>
 		</form>
-
-    {% else %}
-
-        <P>Hello, you're already logged in. Please click <a href="/logout">here</a> to logout.</p>
-
-    {% endif %}
 
 {% endblock %}

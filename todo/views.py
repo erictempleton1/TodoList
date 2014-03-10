@@ -1,8 +1,7 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
-from flask.ext.login import login_user, logout_user, current_user, login_required
 from forms import Signup, UserLogin
 from models import User
-from todo import app, db, login_manager
+from todo import app, db
 from werkzeug.security import check_password_hash
 
 @app.before_request

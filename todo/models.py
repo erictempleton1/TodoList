@@ -1,3 +1,4 @@
+from datetime import datetime
 from todo import db
 from werkzeug import generate_password_hash, check_password_hash
 
@@ -5,11 +6,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))
     email = db.Column(db.String(120), unique=True)
+    signup_date = db.Column(db.DateTime)
     pw_hash = db.Column(db.String(64))
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, signup_date, password):
         self.name = name.title()
         self.email = email.lower()
+        self.signup_date = datetime.utcnow()
         self.set_password(password)
 
     def set_password(self, password):
@@ -17,18 +20,6 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.pw_hash, password)
-
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return unicode(self.id)
 
     def __repr__(self):
         return '<User %r>' % (self.name)

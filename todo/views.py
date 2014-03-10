@@ -82,8 +82,6 @@ def login():
                 session['logged_in'] = True
                 session['user_email'] = form.email.data
                 flash('Logged in!')
-                # login_user(check_email)
-                user_id = check_email.id
                 return redirect(url_for('index'))
 
     return render_template('login.html', form=form, title='Login')
@@ -91,8 +89,7 @@ def login():
 @app.route('/lists')
 def user_lists():
     return none
-    
-        
+     
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)

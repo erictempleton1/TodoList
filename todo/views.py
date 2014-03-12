@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
-from forms import Signup, UserLogin
+from forms import Signup, UserLogin, TodoList
 from models import User
 from todo import app, db
 import datetime
@@ -68,13 +68,13 @@ def login():
                 check_pw = check_email.check_password(user_pw)
             except AttributeError:
                 flash('Invalid email')
-                return render_template('login.html', form=form, title='Login')
+                return render_template('login.html', form=form)
 
         if check_email is not None:
             check_pw = check_email.check_password(user_pw)
             if check_pw is False:
                 flash('Invalid password')
-                return render_template('login.html', form=form, title='Login')
+                return render_template('login.html', form=form)
 
         if check_email is not None:
             check_pw = check_email.check_password(user_pw)
@@ -86,9 +86,18 @@ def login():
 
     return render_template('login.html', form=form, title='Login')
 
-@app.route('/lists')
-def user_lists():
-    return none
+@app.route('/create', methods=['GET', 'POST'])
+def create_list():
+    form = TodoList()
+
+    if 'logged_in' not in session:
+        flash('Please login or register to create your list!')
+        return redirect('/')
+
+    if request.method == 'POST' and form.validate.on_submit() == False or request.method == 'GET':
+        return render_template('create.html', form=form)
+
+    return render_template('create.html', form=form)
      
 @app.route('/logout')
 def logout():

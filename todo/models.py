@@ -33,12 +33,6 @@ class UserTodo(db.Model):
     create_date = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, todo_item, item_due_date, todo_item_note):
-        self.todo_item = todo_item
-        self.item_due_date = item_due_date
-        self.todo_item_note = todo_item_note
-        create_date = datetime.datetime.now()
-
     def __repr__(self):
         return '<UserTodo %r>' % (self.todo_item)
     

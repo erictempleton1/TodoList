@@ -1,6 +1,6 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
 from forms import Signup, UserLogin, TodoList
-from models import User
+from models import User, UserTodo
 from todo import app, db
 import datetime
 from werkzeug.security import check_password_hash
@@ -97,7 +97,9 @@ def create_list():
     if request.method == 'POST' and form.validate.on_submit() == False or request.method == 'GET':
         return render_template('create.html', form=form)
 
-    return render_template('create.html', form=form)
+    if request.method == 'POST' and form.validate.on_submit() == True:
+
+        return render_template('create.html', form=form)
      
 @app.route('/logout')
 def logout():

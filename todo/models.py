@@ -8,7 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     signup_date = db.Column(db.DateTime)
     pw_hash = db.Column(db.String(64))
-    user_list = db.relationship('UserTodo', backref = 'user_name', lazy = 'dynamic')
+    user_list = db.relationship('UserTodo', backref = 'user', lazy = 'dynamic')
 
     def __init__(self, name, email, password):
         self.name = name.title()

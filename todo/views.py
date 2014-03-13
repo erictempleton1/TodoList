@@ -94,12 +94,16 @@ def create_list():
         flash('Please login or register to create your list!')
         return redirect('/')
 
-    if request.method == 'POST' and form.validate.on_submit() == False or request.method == 'GET':
+    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
         return render_template('create.html', form=form)
 
-    if request.method == 'POST' and form.validate.on_submit() == True:
-
-        return render_template('create.html', form=form)
+    if request.method == 'POST' and form.validate_on_submit() == True:
+        user = User.query.filter_by(email=g.user.email).first()
+        list_submit = UserTodo(todo_item=form.todo_item.data, item_due_date=form.due_date.data, todo_item_note=form.item_note.data, create_date=datetime.datetime.utcnow(), user=user)
+        db.session.add(list_submit)
+        db.session.commit()
+        flash('Item added!')
+        return redirect(url_for('index'))
      
 @app.route('/logout')
 def logout():

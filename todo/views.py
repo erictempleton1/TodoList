@@ -106,6 +106,18 @@ def create_list():
         db.session.commit()
         flash('Item added!')
         return redirect(url_for('index'))
+
+@app.route('/list')
+def display_list():
+    
+    if 'logged_in' not in session:
+        flash('Please login or register to view your list!')
+        return redirect('/')
+    
+    if 'logged_in' in session:
+        user = User.query.filter_by(email=g.user.email).first()
+        get_list = user.user_list.all() # queries user_list db relation
+        
      
 @app.route('/logout')
 def logout():

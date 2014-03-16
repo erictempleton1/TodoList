@@ -17,4 +17,6 @@ class TodoList(Form):
     item_note = TextField('item_note')
     due_date = DateField('due_date', [validators.Required('Please choose a due date (eg: 3/14/2014)')], format='%m/%d/%Y')
 
+class UpdateList(Form):
+    checkbox = BooleanField('remember_me', default=False)
     

@@ -79,14 +79,10 @@
     {% endwith %}
 
     {% if session.logged_in %}
-
       <h1>{{ user }}'s To-do List</h1>
-
     {% else %}
-
       <h1>To-do List</h1>
       <h4><a href="/login">Login</a> or <a href="/signup">Sign up</a> to start creating your list!</h4> 
-
     {% endif %}
           <p class="lead">
           {% block content %}{% endblock %}

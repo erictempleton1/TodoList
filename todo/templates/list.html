@@ -9,7 +9,7 @@
 				<th>Added</th>
 				<th>Item</th>
 				<th>Due</th>
-				<th>Done</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -19,6 +19,7 @@
 				<td> {{ item.create_date.strftime('%Y-%m-%d') }}
 				<td> {{ item.todo_item }} </td>
 				<td> {{ item.item_due_date }} </td>
+				<td> {{ form.checkbox }}
 			</tr>
 			{% endfor %}
 		</tbody>

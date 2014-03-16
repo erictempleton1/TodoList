@@ -82,7 +82,7 @@ def login():
                 session['logged_in'] = True
                 session['user_email'] = form.email.data
                 flash('Logged in!')
-                return redirect(url_for('index'))
+                return redirect(url_for('display_list'))
 
     return render_template('login.html', form=form, title='Login')
 
@@ -95,7 +95,7 @@ def create_list():
         return redirect('/')
 
     if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
-        return render_template('create.html', form=form)
+        return render_template('create.html', form=form, user=g.user.name)
 
     if request.method == 'POST' and form.validate_on_submit() == True:
         user = User.query.filter_by(email=g.user.email).first()
@@ -105,7 +105,7 @@ def create_list():
         db.session.add(list_submit)
         db.session.commit()
         flash('Item added!')
-        return redirect(url_for('index'))
+        return redirect(url_for('display_list'))
 
 @app.route('/list')
 def display_list():
@@ -117,7 +117,7 @@ def display_list():
     if 'logged_in' in session:
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
-        return render_template("list.html", get_list=get_list)
+        return render_template("list.html", get_list=get_list, user=g.user.name)
      
 @app.route('/logout')
 def logout():

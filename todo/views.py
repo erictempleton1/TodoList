@@ -107,7 +107,7 @@ def create_list():
         flash('Item added!')
         return redirect(url_for('display_list'))
 
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def display_list():
     form = UpdateList()
     

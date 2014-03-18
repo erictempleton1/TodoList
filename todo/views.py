@@ -107,9 +107,8 @@ def create_list():
         flash('Item added!')
         return redirect(url_for('display_list'))
 
-@app.route('/list', methods=['GET', 'POST'])
+@app.route('/list')
 def display_list():
-    form = UpdateList()
     
     if 'logged_in' not in session:
         flash('Please login or register to view your list!')
@@ -118,8 +117,22 @@ def display_list():
     if 'logged_in' in session:
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
-        return render_template("list.html", get_list=get_list, user=g.user.name, form=form)
-     
+        return render_template('list.html', get_list=get_list, user=g.user.name)
+
+@app.route('/item/<int:item_id>')
+def update_list(item_id):
+    form = UpdateList()
+
+    if 'logged_in' not in session:
+        flash('Please login to view this page!')
+        return redirect('/')
+
+    if 'logged_in' in session:
+        todo_item = UserTodo.query.get(item_id)
+        return render_template('list.html', user=g.user.name, form=form)
+        
+        
+    
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)

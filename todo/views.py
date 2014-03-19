@@ -119,7 +119,7 @@ def display_list():
         get_list = user.user_list.all() # queries user_list db relation
         return render_template('list.html', get_list=get_list, user=g.user.name)
 
-@app.route('/item/<int:item_id>')
+@app.route('/item/<int:item_id>', methods=['GET', 'POST'])
 def update_list(item_id):
     form = UpdateList()
 
@@ -127,7 +127,11 @@ def update_list(item_id):
         flash('Please login to view this page!')
         return redirect('/')
 
-    if 'logged_in' in session:
+    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+        todo_item = UserTodo.query.get(item_id)
+        return render_template('update.html', form=form, user=g.user.name, todo_item=todo_item)
+
+    if request.method == 'POST' and form.validate_on_submit() == True:
         todo_item = UserTodo.query.get(item_id)
         return render_template('update.html', user=g.user.name, form=form, todo_item=todo_item)
         

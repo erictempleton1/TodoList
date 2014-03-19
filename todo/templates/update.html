@@ -18,21 +18,21 @@
 	    {% endif %}
 	{% endwith %}
 
-<form class="form-horizontal" action="{{ url_for('update_list') }}" method="post" name="update">
+<form class="form-horizontal" action="{{ url_for('update_list', item_id=todo_item) }}" method="get" name="update">
 		{{ form.hidden_tag() }}
 
 		<p>
 		Todo Item<br>
-		{{ form.todo_item(size=50, value={{ todo_item.todo_item }} ) }}
+		{{ form.todo_item(size=50, value=todo_item.todo_item) }}
 		</p>
 
 		<p>
 		Due Date<br>
-		{{ form.due_date(size=20, value={{ todo_item.item_due_date }} ) }}
+		{{ form.due_date(size=20, value=todo_item.item_due_date) }}
 		</p>
 
 		<p>
-			<input type="update" value="Update">
+			<input type="submit" value="Update">
 		</p>
 	</form>
 

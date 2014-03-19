@@ -129,7 +129,7 @@ def update_list(item_id):
 
     if 'logged_in' in session:
         todo_item = UserTodo.query.get(item_id)
-        return render_template('list.html', user=g.user.name, form=form)
+        return render_template('update.html', user=g.user.name, form=form, todo_item=todo_item)
         
         
     

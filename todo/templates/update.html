@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Added</th>
+				<th>Item</th>
+				<th>Due</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td> {{ todo_item.id }} </td>
+				<td> {{ todo_item.create_date.strftime('%Y-%m-%d') }}
+				<td> {{ todo_item.todo_item }} </td>
+				<td> {{ todo_item.item_due_date }} </td>
+			</tr>
+		</tbody>
+	</table>
+
+{% endblock %}

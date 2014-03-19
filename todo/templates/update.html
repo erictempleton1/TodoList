@@ -2,24 +2,38 @@
 
 {% block content %}
 
-<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Added</th>
-				<th>Item</th>
-				<th>Due</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td> {{ todo_item.id }} </td>
-				<td> {{ todo_item.create_date.strftime('%Y-%m-%d') }}
-				<td> {{ todo_item.todo_item }} </td>
-				<td> {{ todo_item.item_due_date }} </td>
-			</tr>
-		</tbody>
-	</table>
+	{% for message in form.todo_item.errors %}
+		<div class="alert alert-warning">{{ message }}</div>
+    {% endfor %}
+
+	{% for message in form.due_date.errors %}
+		<div class="alert alert-warning">{{ message }}</div>
+	{% endfor %}
+
+	{% with messages = get_flashed_messages() %}
+	    {% if messages %}
+	    {% for message in messages %}
+			<div class="alert alert-danger">{{ message }}</div>
+	    {% endfor %}
+	    {% endif %}
+	{% endwith %}
+
+<form class="form-horizontal" action="{{ url_for('update_list') }}" method="post" name="update">
+		{{ form.hidden_tag() }}
+
+		<p>
+		Todo Item<br>
+		{{ form.todo_item(size=50, value={{ todo_item.todo_item }} ) }}
+		</p>
+
+		<p>
+		Due Date<br>
+		{{ form.due_date(size=20, value={{ todo_item.item_due_date }} ) }}
+		</p>
+
+		<p>
+			<input type="update" value="Update">
+		</p>
+	</form>
 
 {% endblock %}

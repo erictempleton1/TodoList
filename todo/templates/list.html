@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h5><a href='/create'>Add</a> to your list or click the ID to update an item.</h5>
+
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -19,6 +21,7 @@
 				<td> {{ item.create_date.strftime('%Y-%m-%d') }}
 				<td> {{ item.todo_item }} </td>
 				<td> {{ item.item_due_date }} </td>
+    			<td> {{ form.done(value=item.id) }} </td>
 			</tr>
 			{% endfor %}
 		</tbody>

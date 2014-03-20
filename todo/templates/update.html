@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h5>Change this to-do, or update the due date (format m/d/y eg: 3/15/2014)</h5>
+
 	{% for message in form.todo_item.errors %}
 		<div class="alert alert-warning">{{ message }}</div>
     {% endfor %}
@@ -22,7 +24,7 @@
 		{{ form.hidden_tag() }}
 
 		<p>
-		Todo Item<br>
+		To-do Item<br>
 		{{ form.todo_item(size=50, value=todo_item.todo_item) }}
 		</p>
 

@@ -133,7 +133,11 @@ def update_list(item_id):
 
     if request.method == 'POST' and form.validate_on_submit() == True:
         todo_item = UserTodo.query.get(item_id)
-        return render_template('update.html', user=g.user.name, form=form, todo_item=todo_item)
+        todo_item.todo_item = form.todo_item.data
+        todo_item.item_due_date = form.due_date.data
+        db.session.commit()
+        flash('List updated!')
+        return redirect(url_for('display_list'))
         
         
     

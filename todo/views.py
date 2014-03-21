@@ -107,7 +107,7 @@ def create_list():
         flash('Item added!')
         return redirect(url_for('display_list'))
 
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def display_list():
     form = UpdateList()
     
@@ -119,6 +119,17 @@ def display_list():
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
         return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
+
+    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+        return redirect('/list')
+
+    if request.method == 'POST' and form.validate_on_submit() == True:
+        to_remove = request.form.getlist('done')
+        db.session.delete(to_remove)
+        db.session.commit()
+        flash('%r items removed') % len(to_remove)
+        return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
+            
 
 @app.route('/item/<int:item_id>', methods=['GET', 'POST'])
 def update_list(item_id):

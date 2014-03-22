@@ -134,7 +134,7 @@ def remove_item(id_delete):
             db.session.commit()
             return redirect(url_for('display_list'))
         else:
-            flash('Item not found')
+            flash('Item to remove not found')
             return redirect(url_for('display_list'))
 
 

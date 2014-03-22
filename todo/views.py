@@ -127,11 +127,15 @@ def remove_item(id_delete):
         return redirect('/')
 
     if 'logged_in' in session:
-        flash('Item removed!')
         remove_item = UserTodo.query.get(id_delete)
-        db.session.delete(remove_item)
-        db.session.commit()
-        return redirect(url_for('display_list'))
+        if remove_item is not None:
+            flash('Item removed!')
+            db.session.delete(remove_item)
+            db.session.commit()
+            return redirect(url_for('display_list'))
+        else:
+            flash('Item not found')
+            return redirect(url_for('display_list'))
 
 
 @app.route('/item/<int:item_id>', methods=['GET', 'POST'])
@@ -153,9 +157,8 @@ def update_list(item_id):
         db.session.commit()
         flash('List updated!')
         return redirect(url_for('display_list'))
-        
-        
-    
+
+  
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)

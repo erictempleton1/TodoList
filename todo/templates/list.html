@@ -20,20 +20,10 @@
 				<td> {{ item.create_date.strftime('%Y-%m-%d') }}
 				<td> {{ item.todo_item }} </td>
 				<td> {{ item.item_due_date }} </td>
-			<form class="form-horizontal" action="{{ url_for('display_list') }}" method="post" name="update">
-					{{ form.hidden_tag() }}
-
-    			<td> {{ form.done(value=item.id) }} </td>
+    			<td><a class="btn btn-default" href="{{ url_for('remove_item', id_delete=item.id) }}" role="button">Done</a></td>
 
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
-		<div class="btn pull-right">
-			<input type="submit" value="Remove">
-</form>
-		</div>
-
-
-
 {% endblock %}

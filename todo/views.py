@@ -109,7 +109,6 @@ def create_list():
 
 @app.route('/list', methods=['GET', 'POST'])
 def display_list():
-    form = UpdateList()
     
     if 'logged_in' not in session:
         flash('Please login or register to view your list!')
@@ -118,18 +117,22 @@ def display_list():
     if 'logged_in' in session:
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
-        return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
+        return render_template('list.html', get_list=get_list, user=g.user.name)
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
-        return redirect('/list')
+@app.route('/remove/<int:id_delete>')
+def remove_item(id_delete):
 
-    if request.method == 'POST' and form.validate_on_submit() == True:
-        to_remove = request.form.getlist('done')
-        db.session.delete(to_remove)
+    if 'logged_in' not in session:
+        flash('Please login to view this page!')
+        return redirect('/')
+
+    if 'logged_in' in session:
+        flash('Item removed!')
+        remove_item = UserTodo.query.get(id_delete)
+        db.session.delete(remove_item)
         db.session.commit()
-        flash('%r items removed') % len(to_remove)
-        return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
-            
+        return redirect(url_for('display_list'))
+
 
 @app.route('/item/<int:item_id>', methods=['GET', 'POST'])
 def update_list(item_id):

@@ -21,4 +21,7 @@ class UpdateList(Form):
     todo_item = TextField('todo_item', [validators.Required('Please enter an item for your list your list!')])
     due_date = DateField('due_date', [validators.Required('Please choose a due date (eg: 3/15/2014)')], format='%m/%d/%Y')
     done = BooleanField('done', [validators.Required('Please select items to remove!')], default = False)
+
+class SearchList(Form):
+    search_item = TextField('search_item', [validators.Required('Please enter an item to search!')])
     

@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
-from forms import Signup, UserLogin, TodoList, UpdateList
+from forms import Signup, UserLogin, TodoList, UpdateList, SearchList
 from models import User, UserTodo
 from todo import app, db
 import datetime
@@ -109,6 +109,7 @@ def create_list():
 
 @app.route('/list', methods=['GET', 'POST'])
 def display_list():
+    form = SearchList()
     
     if 'logged_in' not in session:
         flash('Please login or register to view your list!')

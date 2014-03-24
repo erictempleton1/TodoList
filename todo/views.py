@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
-from forms import Signup, UserLogin, TodoList, UpdateList, SearchList
+from forms import Signup, UserLogin, TodoList, UpdateList
 from models import User, UserTodo
 from todo import app, db
 import datetime
@@ -27,7 +27,7 @@ def signup():
 
     if 'logged_in' in session:
         flash('You are already signed up! Please log out to create a new account.')
-        return redirect('/')
+        return redirect('/list')
 
     if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
         return render_template('signup.html', form=form)
@@ -44,6 +44,8 @@ def signup():
             db.session.commit()
             flash('Account created! Please login.')
             return redirect('/')
+
+    return render_template('signup.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -109,7 +111,6 @@ def create_list():
 
 @app.route('/list', methods=['GET', 'POST'])
 def display_list():
-    form = SearchList()
     
     if 'logged_in' not in session:
         flash('Please login or register to view your list!')
@@ -118,7 +119,7 @@ def display_list():
     if 'logged_in' in session:
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
-        return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
+        return render_template('list.html', get_list=get_list, user=g.user.name)
     
 
 @app.route('/remove/<int:id_delete>')

@@ -20,7 +20,7 @@
 	    {% endif %}
 	{% endwith %}
 
-<form class="form-horizontal" action="{{ url_for('update_list', item_id=todo_item.id) }}" method="post" name="update">
+<form class="form-horizontal" role="form" action="{{ url_for('update_list', item_id=todo_item.id) }}" method="post" name="update">
 		{{ form.hidden_tag() }}
 
 		<p>

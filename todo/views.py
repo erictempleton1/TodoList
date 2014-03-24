@@ -119,18 +119,6 @@ def display_list():
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
         return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
-
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
-        return redirect(url_for('display_list'))
-
-    if request.method == 'POST' and form.validate_on_submit() == True:
-        item_query=form.search_item.data
-        return redirect(url_for('item_search'))
-
-
-@app.route('/search', methods=['GET', 'POST'])
-def item_search():
-    return render_template('search.html', user=g.user.name)
     
 
 @app.route('/remove/<int:id_delete>')

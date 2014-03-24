@@ -2,18 +2,6 @@
 
 {% block content %}
 
-<h5><a href='/create'>Add</a> to your list or click the ID to edit an item.</h5>
-	<div class="pull-right">
-		<form class="form-horizontal" action="{{ url_for('item_search') }}" method="post" name="search_item">
-				{{ form.hidden_tag() }}
-
-				{{ form.search_item(size=30) }}
-					<input type="submit" value="Search">
-				</p>
-
-		</form>
-    </div>
-
 	<table class="table table-hover">
 		<thead>
 			<tr>

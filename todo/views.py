@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for, session, g
-from forms import Signup, UserLogin, TodoList, UpdateList
+from forms import Signup, UserLogin, TodoList, UpdateList, SearchList
 from models import User, UserTodo
 from todo import app, db
 import datetime
@@ -160,7 +160,21 @@ def update_list(item_id):
         db.session.commit()
         flash('List updated!')
         return redirect(url_for('display_list'))
+"""
+@app.route('/search', methods=['GET', 'POST'])
+def search_list():
+    form = SearchList()
 
+    if 'logged_in' not in session:
+        flash('Please login to view this page!')
+        return redirect('/')
+
+    if form.validate_on_submit == True:
+        
+
+    else:
+        return render_template('search.html', form=form, user=g.user.name, todo_item=todo_item)
+"""
   
 @app.route('/logout')
 def logout():

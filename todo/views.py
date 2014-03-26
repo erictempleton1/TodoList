@@ -181,12 +181,19 @@ def search_list():
         item_due = [item.item_due_date for item in get_list]
         final_list = zip(item_id, item_create, item_todo, item_due)  
     
-        # user submits search term, matching tuples are appended to search_list
+        # user submits search term, matching tuples are appended to search_li
         search_list = []
         search_term = form.search_item.data.lower()
         for items in enumerate(final_list):
             if final_list[items[0]][2].startswith(search_term):
                 search_list.append(items)
+
+        # enumerate does not work in jinja, and I couldn't think of another solution
+        # so below brings each item back into its list for looping over in the template
+        search_id = [search_list[items[0]][1][0] for items in enumerate(search_list)]
+        search_date = [search_list[items[0]][1][1] for items in enumerate(search_list)]
+        search_item = [search_list[items[0]][1][2] for items in enumerate(search_list)]
+        search_due = [search_list[items[0]][1][3] for items in enumerate(search_list)]
 
         return render_template('search.html', form=form, user=g.user.name, search_list=search_list)
                 

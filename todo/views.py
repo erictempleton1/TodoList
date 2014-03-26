@@ -195,6 +195,8 @@ def search_list():
         search_item = [search_list[items[0]][1][2] for items in enumerate(search_list)]
         search_due = [search_list[items[0]][1][3] for items in enumerate(search_list)]
 
+        # need to pass all lists to template, and loop over each one seperately
+
         return render_template('search.html', form=form, user=g.user.name, search_list=search_list)
                 
 

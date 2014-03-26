@@ -160,7 +160,7 @@ def update_list(item_id):
         db.session.commit()
         flash('List updated!')
         return redirect(url_for('display_list'))
-"""
+
 @app.route('/search', methods=['GET', 'POST'])
 def search_list():
     form = SearchList()
@@ -170,11 +170,30 @@ def search_list():
         return redirect('/')
 
     if form.validate_on_submit == True:
+        # creates a list of all todo items for search
+        user = User.query.filter_by(email=g.user.email).first()
+        get_list = user.user_list.all()
         
+        # lists of all items to be zipped, searched for string, and returned
+        item_id = [item.id for item in get_list]
+        item_create = [item.create_date for item in get_list]
+        item_todo = [item.todo_item.lower() for item in get_list]
+        item_due = [item.item_due_date for item in get_list]
+        final_list = zip(item_id, item_create, item_todo, item_due)  
+    
+        # user submits search term, matching tuples are appended to search_list
+        search_list = []
+        search_term = form.search_item.data.lower()
+        for items in enumerate(final_list):
+            if final_list[items[0]][2].startswith(search_term):
+                search_list.append(items)
+
+        return render_template('search.html', form=form, user=g.user.name, search_list=search_list)
+                
 
     else:
-        return render_template('search.html', form=form, user=g.user.name, todo_item=todo_item)
-"""
+        return render_template('search.html', form=form, user=g.user.name)
+
   
 @app.route('/logout')
 def logout():

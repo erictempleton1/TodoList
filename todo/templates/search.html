@@ -28,16 +28,23 @@
 				<th></th>
 			</tr>
 		</thead>
-			{% for item in search_list %}
 			<tr>
-				<td> {{ item.id }}  </a></td>
-				<td> {{ item.create_date.strftime('%Y-%m-%d') }}
-				<td> {{ item.todo_item }} </td>
-				<td> {{ item.item_due_date }} </td>
-    			<td><a class="btn btn-default" href="{{ url_for('remove_item', id_delete=item.id) }}" role="button">Done</a></td>
+				{% for items in search_id %}
+					<td> {{ items }}  </a></td>
+                {$ endfor %}
 
+				{% for items in search_date %}
+					<td> {{ items.strftime('%Y-%m-%d') }}
+				{% endfor %}
+
+				{% for items in search_item %}
+					<td> {{ item.todo_item }} </td>
+				{% endfor %}
+
+				{% for items in search_due %}
+					<td> {{ item.item_due_date }} </td>
+				{% endfor %}
 			</tr>
-			{% endfor %}
 		</tbody>
 	</table>
 

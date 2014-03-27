@@ -197,7 +197,8 @@ def search_list():
 
         # need to pass all lists to template, and loop over each one seperately
 
-        return render_template('search.html', form=form, user=g.user.name, search_list=search_list)
+        return render_template('search.html', form=form, user=g.user.name, search_id=search_id,
+                                search_date=search_date, search_item=search_item, search_due=search_due)
                 
 
     else:

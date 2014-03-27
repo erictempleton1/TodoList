@@ -2,12 +2,12 @@
 
 {% block content %}
 
-	<form class="form-horizontal" role="form" action="{{ url_for('signup') }}" method="post" name="signup">
+	<form class="form-horizontal" role="form" action="{{ url_for('search_list') }}" method="post" name="search">
 		{{ form.hidden_tag() }}
 
 		<div class="form-group">
 		    <div class="col-sm-10">
-			      {{ form.search_item(class="form-control", placeholder=""Apples" or "bread"") }}
+			      {{ form.search_item(class="form-control", placeholder="Apples or bread") }}
 		    </div>
 		</div>
 
@@ -17,34 +17,18 @@
 			</div>
 			</div>
 		</form>
-
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>ID</th>
-				<th>Added</th>
 				<th>Item</th>
-				<th>Due</th>
-				<th></th>
 			</tr>
 		</thead>
+			<tbody>
+			{% for items in search_items %}
 			<tr>
-				{% for items in search_id %}
-					<td> {{ items }}  </a></td>
-                {$ endfor %}
-
-				{% for items in search_date %}
-					<td> {{ items.strftime('%Y-%m-%d') }}
-				{% endfor %}
-
-				{% for items in search_item %}
-					<td> {{ item.todo_item }} </td>
-				{% endfor %}
-
-				{% for items in search_due %}
-					<td> {{ item.item_due_date }} </td>
-				{% endfor %}
+				<td> {{ items }} </td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 

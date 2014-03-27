@@ -169,7 +169,10 @@ def search_list():
         flash('Please login to view this page!')
         return redirect('/')
 
-    if form.validate_on_submit == True:
+    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+        return render_template('search.html', form=form, user=g.user.name)
+
+    if request.method == 'POST' and form.validate_on_submit() == True:
         # creates a list of all todo items for search
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all()
@@ -199,10 +202,6 @@ def search_list():
 
         return render_template('search.html', form=form, user=g.user.name, search_id=search_id,
                                 search_date=search_date, search_item=search_item, search_due=search_due)
-                
-
-    else:
-        return render_template('search.html', form=form, user=g.user.name)
 
   
 @app.route('/logout')

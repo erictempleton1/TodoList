@@ -13,10 +13,12 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-  				<button type="submit" class="btn btn-default">Search</button>
+  				<button type="submit" class="btn btn-default" name="Search">Search</button>
 			</div>
 			</div>
 		</form>
+
+
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -24,11 +26,15 @@
 			</tr>
 		</thead>
 			<tbody>
-			{% for items in search_items %}
 			<tr>
-				<td> {{ items }} </td>
-			</tr>
+			{% for item in search_id %}
+				<td> {{ item }} </td>
 			{% endfor %}
+
+			{% for item in search_item %}
+				<td> {{ item }} </td>
+			{% endfor %}
+	
 		</tbody>
 	</table>
 

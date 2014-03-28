@@ -174,6 +174,7 @@ def search_list():
 
     if request.method == 'POST' and form.validate_on_submit() == True:
         # creates a list of all todo items for search
+        success = True
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all()
         
@@ -201,7 +202,7 @@ def search_list():
         # need to pass all lists to template, and loop over each one seperately
 
         return render_template('search.html', form=form, user=g.user.name, search_id=search_id,
-                                search_date=search_date, search_item=search_item, search_due=search_due)
+                                search_date=search_date, search_item=search_item, search_due=search_due, success=success)
 
   
 @app.route('/logout')

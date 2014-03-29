@@ -6,4 +6,4 @@ for items in search_list:
 
 for item in new_list:
     if 'some' in item:
-        print item
+        print ' '.join(item)

@@ -17,7 +17,7 @@
 			<tr>
 				<td><a href="{{ url_for('update_list', item_id=item.id) }}"> {{ item.id }}  </a></td>
 				<td> {{ item.create_date.strftime('%Y-%m-%d') }}
-				<td> {{ item.todo_item }} </td>
+				<td> {{ item.todo_item|capitalize }} </td>
 				<td> {{ item.item_due_date }} </td>
     			<td><a class="btn btn-default" href="{{ url_for('remove_item', id_delete=item.id) }}" role="button">Done</a></td>
 

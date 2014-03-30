@@ -181,7 +181,7 @@ def search_list():
         # lists of all items to be zipped, searched for string, and returned
         item_id = [item.id for item in get_list]
         item_create = [item.create_date for item in get_list]
-        item_todo = [item.todo_item.lower() for item in get_list]
+        item_todo = [item.todo_item.lower().split() for item in get_list]
         item_due = [item.item_due_date for item in get_list]
         final_list = zip(item_id, item_create, item_todo, item_due)  
     
@@ -189,18 +189,17 @@ def search_list():
         search_list = []
         search_term = form.search_item.data.lower()
         for items in enumerate(final_list):
-            if final_list[items[0]][2].startswith(search_term):
+            if search_term in final_list[items[0]][2]:
                 search_list.append(items)
 
         # enumerate does not work in jinja, and I couldn't think of another solution
         # so below brings each item back into its list for looping over in the template
         search_id = [search_list[items[0]][1][0] for items in enumerate(search_list)]
         search_date = [search_list[items[0]][1][1] for items in enumerate(search_list)]
-        search_item = [search_list[items[0]][1][2] for items in enumerate(search_list)]
+        search_item = [' '.join(search_list[items[0]][1][2]) for items in enumerate(search_list)]
         search_due = [search_list[items[0]][1][3] for items in enumerate(search_list)]
 
-        # need to pass all lists to template, and loop over each one seperately
-
+        
         return render_template('search.html', form=form, user=g.user.name, search_id=search_id,
                                 search_date=search_date, search_item=search_item, search_due=search_due, success=success)
 

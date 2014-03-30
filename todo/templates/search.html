@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<form class="form-horizontal" role="form" action="{{ url_for('search_list') }}" method="post" name="search">
+	<form class="form-horizontal" role="form" action="{{ url_for('search_list', term=form.search_item.data) }}" method="post" name="search">
 		{{ form.hidden_tag() }}
 
 		<div class="form-group">

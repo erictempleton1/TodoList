@@ -111,6 +111,7 @@ def create_list():
 
 @app.route('/list', methods=['GET', 'POST'])
 def display_list():
+    form = TodoList()
     
     if 'logged_in' not in session:
         flash('Please login or register to view your list!')
@@ -119,7 +120,7 @@ def display_list():
     if 'logged_in' in session:
         user = User.query.filter_by(email=g.user.email).first()
         get_list = user.user_list.all() # queries user_list db relation
-        return render_template('list.html', get_list=get_list, user=g.user.name)
+        return render_template('list.html', get_list=get_list, user=g.user.name, form=form)
     
 
 @app.route('/remove/<int:id_delete>')

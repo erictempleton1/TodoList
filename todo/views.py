@@ -29,10 +29,10 @@ def signup():
         flash('You are already signed up! Please log out to create a new account.')
         return redirect('/list')
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+    if form.validate_on_submit() == False:
         return render_template('signup.html', form=form)
 
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit() == True:
 
         if User.query.filter_by(email=form.email.data.lower()).first() is not None:
             flash('Email already in use.')
@@ -56,10 +56,10 @@ def login():
         flash('You are already logged in! Please log out to sign in as another user.')
         return redirect('/')
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+    if form.validate_on_submit() == False:
         return render_template('login.html', form=form, title='Login')
 
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit() == True:
     
         user_pw = form.password.data
         user_email = form.email.data
@@ -96,10 +96,10 @@ def create_list():
         flash('Please login or register to create your list!')
         return redirect('/')
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+    if form.validate_on_submit() == False:
         return render_template('create.html', form=form, user=g.user.name)
 
-    if request.method == 'POST' and form.validate_on_submit() == True:
+    if form.validate_on_submit() == True:
         user = User.query.filter_by(email=g.user.email).first()
         list_submit = UserTodo(todo_item=form.todo_item.data, item_due_date=form.due_date.data, 
                                 todo_item_note=form.item_note.data, create_date=datetime.datetime.utcnow(), 
@@ -150,11 +150,11 @@ def update_list(item_id):
         flash('Please login to view this page!')
         return redirect('/')
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+    if form.validate_on_submit() == False:
         todo_item = UserTodo.query.get(item_id)
         return render_template('update.html', form=form, user=g.user.name, todo_item=todo_item)
 
-    if request.method == 'POST' and form.validate_on_submit() == True:
+    if form.validate_on_submit() == True:
         todo_item = UserTodo.query.get(item_id)
         todo_item.todo_item = form.todo_item.data
         todo_item.item_due_date = form.due_date.data
@@ -170,10 +170,10 @@ def search_list():
         flash('Please login to view this page!')
         return redirect('/')
 
-    if request.method == 'POST' and form.validate_on_submit() == False or request.method == 'GET':
+    if form.validate_on_submit() == False:
         return render_template('search.html', form=form, user=g.user.name)
 
-    if request.method == 'POST' and form.validate_on_submit() == True:
+    if form.validate_on_submit() == True:
         # creates a list of all todo items for search
         success = True
         user = User.query.filter_by(email=g.user.email).first()
@@ -204,7 +204,7 @@ def search_list():
         return render_template('search.html', form=form, user=g.user.name, search_id=search_id,
                                 search_date=search_date, search_item=search_item, search_due=search_due, success=success)
 
-  
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)

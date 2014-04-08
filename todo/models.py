@@ -2,6 +2,11 @@ import datetime
 from todo import db
 from werkzeug import generate_password_hash, check_password_hash
 
+sub_list = db.Table('sub_list',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('usertodo_id', db.Integer, db.ForeignKey('usertodo.id'))
+)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))

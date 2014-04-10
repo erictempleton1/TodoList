@@ -2,10 +2,6 @@ import datetime
 from todo import db
 from werkzeug import generate_password_hash, check_password_hash
 
-sub_list = db.Table('sub_list',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('usertodo_id', db.Integer, db.ForeignKey('usertodo.id'))
-)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -13,8 +9,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     signup_date = db.Column(db.DateTime)
     pw_hash = db.Column(db.String(64))
-    list_title = db.column(db.String(120))
-    user_list = db.relationship('UserTodo', secondary=sub_list, backref = 'user', lazy = 'dynamic')
+    user_list = db.relationship('UserTodo', backref = 'user', lazy = 'dynamic')
 
     def __init__(self, name, email, password):
         self.name = name.title()

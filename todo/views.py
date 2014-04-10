@@ -97,7 +97,8 @@ def create_list():
         return redirect('/')
 
     if form.validate_on_submit() == False:
-        return render_template('create.html', form=form, user=g.user.name)
+        flash('Please enter an item and due date to add')
+        return redirect(url_for('display_list'))
 
     if form.validate_on_submit() == True:
         user = User.query.filter_by(email=g.user.email).first()

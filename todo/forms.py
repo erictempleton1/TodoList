@@ -15,11 +15,11 @@ class UserLogin(Form):
 class TodoList(Form):
     todo_item = TextField('todo_item', [validators.Required('Please enter an item for your list!')])
     item_note = TextField('item_note')
-    due_date = DateField('due_date', [validators.Required('Please choose a due date (eg: 3/14/2014)')], format='%m/%d/%Y')
+    due_date = DateField('due_date', format='%m/%d/%Y')
 
 class UpdateList(Form):
     todo_item = TextField('todo_item', [validators.Required('Please enter an item for your list your list!')])
-    due_date = DateField('due_date', [validators.Required('Please choose a due date (eg: 3/15/2014)')], format='%m/%d/%Y')
+    due_date = DateField('due_date', format='%m/%d/%Y')
 
 class SearchList(Form):
     search_item = TextField('search_item', [validators.Required('Please enter a word to search for!')])
